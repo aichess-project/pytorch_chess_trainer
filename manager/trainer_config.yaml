@@ -1,0 +1,9 @@
+criterion: nn.L1Loss
+cudnn_enabled: false
+device: cpu
+epochs: 10
+learning_rate: 0.01
+optimizer: torch.optim.Adam
+reduction: mean
+test_threshold: 1.0
+weight_decay: 1.0e-05
