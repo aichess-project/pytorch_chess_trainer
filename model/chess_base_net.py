@@ -1,18 +1,32 @@
 from pytorch_chess_trainer.libs.chess_lib import Chess_Lib
+from config.net_config import load_net_config_from_yaml, save_net_config_to_yaml
 import torch
 import torch.nn as nn
 import torch.nn.init as init
 import logging
 import hashlib
+from model.base_model import BaseModel
 
-class ChessBaseNet(nn.Module):
-    def __init__(self, NUM_FEATURES = 40960, M = 256, N = 32, K = 32):
+class ChessBaseNet(BaseModel):
+
+    def __init__(self):
         super(ChessBaseNet, self).__init__()
         self.first = True
-        self.ft = nn.Linear(NUM_FEATURES, M)
-        self.l1 = nn.Linear(2 * M, N)
-        self.l2 = nn.Linear(N, K)
-        self.l3 = nn.Linear(K, 1)
+
+    def init_net(self, net_config, converter):
+        logging.info(f"Net Config: {net_config}")
+        self.ft = nn.Linear(net_config.nodes["NUM_FEATURES"], net_config.nodes["M"])
+        self.l1 = nn.Linear(2 * net_config.nodes["M"], net_config.nodes["N"])
+        self.l2 = nn.Linear(net_config.nodes["N"], net_config.nodes["K"])
+        self.l3 = nn.Linear(net_config.nodes["K"], 1)
+        # Initialize the weights
+        self.init_weights()
+        self.converter = converter
+
+    def init_weights(self):
+        for layer in [self.ft, self.l1, self.l2, self.l3]:
+            if hasattr(layer, 'weight'):
+                init.xavier_uniform_(layer.weight)
 
     def align_eval(self, eval):
       eval = (eval - 0.5) * 2 * Chess_Lib.MAX_MATE
@@ -34,8 +48,8 @@ class ChessBaseNet(nn.Module):
         raise Exception("Not implemented")
     
     def load(self, filename):
-        raise Exception("Not implemented")
+        load_net_config_from_yaml(filename)
 
     def save(self, filename):
-        raise Exception("Not implemented")
+        save_net_config_to_yaml(filename)
 

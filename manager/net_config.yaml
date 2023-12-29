@@ -1,3 +1,5 @@
+lib: chess_base_net
+class_name: ChessBaseNet
 device: cpu
 expected_hash: 0
 net: No Net

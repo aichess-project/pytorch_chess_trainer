@@ -2,10 +2,14 @@ import logging
 from dataclasses import dataclass, fields
 from typing import Optional, Dict
 import yaml
+from model.base_model import BaseModel
+from pytorch_chess_trainer.libs.import_lib import get_class
 
 @dataclass
 class Net_Config():
 
+    lib: str
+    class_name: str
     net_file: str
     expected_hash: int
     net: str
@@ -22,5 +26,9 @@ def save_net_config_to_yaml(config, file_path):
 def load_net_config_from_yaml(file_path):
     with open(file_path, 'r') as file:
         config_dict = yaml.safe_load(file)
-
     return Net_Config(**config_dict)
+
+def get_net(net_config):
+    converter_lib = "model." + net_config.lib
+    converter_class = net_config.class_name
+    return get_class(converter_lib, converter_class, BaseModel)
