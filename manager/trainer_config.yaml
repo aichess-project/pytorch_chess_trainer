@@ -2,7 +2,7 @@ criterion: L1Loss
 cudnn_enabled: false
 device: cpu
 epochs: 10
-learning_rate: 0.01
+learning_rate: 1.0
 optimizer: Adam
 reduction: mean
 test_threshold: 1.0
@@ -12,3 +12,6 @@ training_steps:
   - train
   - valid
   - test
+conv_config: config/conv_config.yaml
+dl_config: config/dl_config.yaml
+net_config: config/net_config.yaml

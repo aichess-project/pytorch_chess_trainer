@@ -14,15 +14,17 @@ class Trainer_Config():
     device: str
     test_threshold: float
     shuffle: bool
-    training_steps: Dict[str, str] = None
-
+    training_steps: Dict[str, str]
+    conv_config: str
+    dl_config: str
+    net_config: str
     #
     # Special Lib for NVIDIA
     # Recommend to set to False, when reproducibility is importatnt
     # unclear, if it can be used on macos
     #
     cudnn_enabled: bool = False
-
+    
 def save_trainer_config_to_yaml(config, file_path):
     # Extract the fields from the data class
     fields_dict = {field.name: getattr(config, field.name) for field in fields(config)}

@@ -1,0 +1,26 @@
+criterion: 
+  - L1Loss
+epochs: 
+  - 10
+  - 100
+learning_rate: 
+  - 10.0
+  - 0.1
+  - 0.001
+optimizer:
+  - Adam
+reduction:
+  - mean
+weight_decay:
+  - 1.0e-05
+test_threshold: 1.0
+shuffle: false
+device: cpu
+cudnn_enabled: false
+training_steps:
+  - train
+  - valid
+  - test
+conv_config: config/conv_config.yaml
+dl_config: config/dl_config.yaml
+net_config: config/net_config.yaml
