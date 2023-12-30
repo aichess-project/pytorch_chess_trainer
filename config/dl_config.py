@@ -6,7 +6,8 @@ import yaml
 class DL_Config():
    
     data_directory: str
-    filename: str 
+    filename: str
+    delimiter: str
 
 def save_dl_config_to_yaml(config, file_path):
     # Extract the fields from the data class

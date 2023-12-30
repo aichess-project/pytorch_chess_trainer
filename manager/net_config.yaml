@@ -1,11 +1,12 @@
-lib: chess_base_net
-class_name: ChessBaseNet
+lib: simple_krk
+class_name: SimpleKRkNet
 device: cpu
 expected_hash: 0
 net: No Net
 net_file: null
 nodes:
-  NUM_FEATURES: 40960
+  NUM_FEATURES: 4
+  # NUM_FEATURES: 40960
   M: 256
   N: 32
   K: 32

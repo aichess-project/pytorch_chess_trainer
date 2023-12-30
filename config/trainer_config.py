@@ -1,6 +1,7 @@
 import logging
 from dataclasses import dataclass, fields
 import yaml
+from typing import Dict
 
 @dataclass
 class Trainer_Config():
@@ -11,15 +12,16 @@ class Trainer_Config():
     reduction: str
     criterion: str
     device: str
-
     test_threshold: float
+    shuffle: bool
+    training_steps: Dict[str, str] = None
 
     #
     # Special Lib for NVIDIA
     # Recommend to set to False, when reproducibility is importatnt
     # unclear, if it can be used on macos
     #
-    cudnn_enabled: bool
+    cudnn_enabled: bool = False
 
 def save_trainer_config_to_yaml(config, file_path):
     # Extract the fields from the data class

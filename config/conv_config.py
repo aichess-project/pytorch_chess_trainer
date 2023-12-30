@@ -3,7 +3,7 @@ from dataclasses import dataclass, fields
 import yaml
 import importlib
 from converter.converter_base import Converter_Base
-from pytorch_chess_trainer.libs.import_lib import get_class
+from libs.import_lib import get_class
 
 @dataclass
 class Conv_Config():

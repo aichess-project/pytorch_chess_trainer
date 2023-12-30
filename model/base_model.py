@@ -6,7 +6,7 @@ class BaseModel(nn.Module):
     def __init__(self):
         super(BaseModel, self).__init__()
 
-    def init_net(self, net_config, converter):
+    def init_net(self, net_config):
         raise Exception("Not implemented")
 
     def init_weights(self):

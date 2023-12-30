@@ -1,4 +1,4 @@
-from pytorch_chess_trainer.libs.chess_lib import Chess_Lib
+from libs.chess_lib import Chess_Lib
 from config.net_config import load_net_config_from_yaml, save_net_config_to_yaml
 import torch
 import torch.nn as nn
@@ -13,15 +13,14 @@ class ChessBaseNet(BaseModel):
         super(ChessBaseNet, self).__init__()
         self.first = True
 
-    def init_net(self, net_config, converter):
+    def init_net(self, net_config):
         logging.info(f"Net Config: {net_config}")
         self.ft = nn.Linear(net_config.nodes["NUM_FEATURES"], net_config.nodes["M"])
-        self.l1 = nn.Linear(2 * net_config.nodes["M"], net_config.nodes["N"])
+        self.l1 = nn.Linear(net_config.nodes["M"], net_config.nodes["N"])
         self.l2 = nn.Linear(net_config.nodes["N"], net_config.nodes["K"])
         self.l3 = nn.Linear(net_config.nodes["K"], 1)
         # Initialize the weights
         self.init_weights()
-        self.converter = converter
 
     def init_weights(self):
         for layer in [self.ft, self.l1, self.l2, self.l3]:
@@ -44,7 +43,7 @@ class ChessBaseNet(BaseModel):
         hash_value = abs(int(sha256_hash, 16))
         return hash_value
     
-    def forward(self, x_tensor):
+    def forward(self, x):
         raise Exception("Not implemented")
     
     def load(self, filename):
