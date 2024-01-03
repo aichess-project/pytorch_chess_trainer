@@ -29,6 +29,7 @@ def load_net_config_from_yaml(file_path):
     return Net_Config(**config_dict)
 
 def get_net(net_config):
+    logging.info(net_config)
     converter_lib = "model." + net_config.lib
     converter_class = net_config.class_name
     return get_class(converter_lib, converter_class, BaseModel)

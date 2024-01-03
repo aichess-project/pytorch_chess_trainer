@@ -12,6 +12,7 @@ class Trainer_Config():
     reduction: str
     criterion: str
     device: str
+    batch_size: int
     test_threshold: float
     shuffle: bool
     training_steps: Dict[str, str]

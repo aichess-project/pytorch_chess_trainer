@@ -1,6 +1,9 @@
 import logging
 from dataclasses import dataclass, fields
 import yaml
+from pytorch_chess_trainer.libs.import_lib import get_class
+from torch.utils.data import Dataset
+
 
 @dataclass
 class DL_Config():
@@ -8,6 +11,8 @@ class DL_Config():
     data_directory: str
     filename: str
     delimiter: str
+    lib: str
+    class_name: str
 
 def save_dl_config_to_yaml(config, file_path):
     # Extract the fields from the data class
@@ -21,3 +26,8 @@ def load_dl_config_from_yaml(file_path):
         config_dict = yaml.safe_load(file)
 
     return DL_Config(**config_dict)
+
+def get_dl(dl_config):
+    dl_lib = "data_loader." + dl_config.lib
+    dl_class = dl_config.class_name
+    return get_class(dl_lib, dl_class, Dataset)

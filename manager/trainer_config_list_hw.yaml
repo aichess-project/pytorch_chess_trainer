@@ -1,21 +1,21 @@
 criterion: 
   - L1Loss
-  - MSELoss
+#  - MSELoss
 epochs: 
-  - 20
+  - 10
+  - 100
 learning_rate: 
-  - 10.0
-  - 0.1
+  - 0.01
   - 0.001
 optimizer:
   - Adam
-#  - SGD
-#  - Adagrad
+  - SGD
+  - Adagrad
 reduction:
-  - mean
+#  - mean
   - sum
 weight_decay:
-  - 0.0
+  - 0.01
   - 0.001
 batch_size:
   - 32
@@ -28,6 +28,6 @@ training_steps:
   - valid
   - test
 conv_config: config/conv_config.yaml
-dl_config: config/dl_config.yaml
-net_config: config/net_config.yaml
-score_data: config/score.yaml
+dl_config: config/dl_config_hw.yaml
+net_config: config/net_config_hw.yaml
+score_data: config/score_hw.yaml

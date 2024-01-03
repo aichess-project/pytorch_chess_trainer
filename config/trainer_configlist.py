@@ -13,6 +13,7 @@ class Trainer_Config_List():
     optimizer: List[str]
     reduction: List[float]
     criterion: List[float]
+    batch_size: List[int]
     device: str
     test_threshold: float
     shuffle: bool
@@ -20,6 +21,7 @@ class Trainer_Config_List():
     conv_config: str
     dl_config: str
     net_config: str
+    score_data: str
     #
     # Special Lib for NVIDIA
     # Recommend to set to False, when reproducibility is importatnt
@@ -48,6 +50,7 @@ def config_iterator(trainer_config_list):
         trainer_config_list.optimizer,
         trainer_config_list.reduction,
         trainer_config_list.criterion,
+        trainer_config_list.batch_size,
     ]
     trainer_config = Trainer_Config(
         cudnn_enabled = trainer_config_list.cudnn_enabled,
@@ -58,6 +61,7 @@ def config_iterator(trainer_config_list):
         conv_config = trainer_config_list.conv_config,
         dl_config = trainer_config_list.dl_config,
         net_config = trainer_config_list.net_config,
+        batch_size = trainer_config_list.batch_size,
         learning_rate = 0.0,
         weight_decay = 0.0,
         epochs = 0,
@@ -77,5 +81,6 @@ def config_iterator(trainer_config_list):
         trainer_config.optimizer = combination[3]
         trainer_config.reduction = combination[4]
         trainer_config.criterion = combination[5]
+        trainer_config.batch_size = combination[6]
         logging.info(f"Config {trainer_config.learning_rate} {trainer_config.weight_decay} {trainer_config.epochs} {trainer_config.optimizer} {trainer_config.reduction} {trainer_config.criterion}")
         yield trainer_config
