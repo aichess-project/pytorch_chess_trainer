@@ -1,0 +1,5 @@
+data_directory: /Users/littlecapa/data_lake/krk/data
+filename: KRk_new.csv
+delimiter: ','
+lib: hello_world_loader
+class_name: HW_Dataset
