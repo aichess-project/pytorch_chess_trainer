@@ -55,6 +55,8 @@ class Chess_Trainer():
       if step == "train":
         self.optimizer.zero_grad()
         loss.backward()
+        # Clip gradients using torch.nn.utils.clip_grad_norm_
+        nn.utils.clip_grad_norm_(self.machine.parameters(), self.trainer_config.clip_value)
         self.optimizer.step()
       running_loss += adjust_loss(loss.item(), step, self.trainer_config)
     return running_loss

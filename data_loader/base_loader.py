@@ -1,8 +1,8 @@
 import logging
 import torch
 from torch.utils.data import Dataset
-import os
-
+import os, sys
+from libs.file_lib import os_path
 
 class Base_Dataset(Dataset):
 
@@ -10,7 +10,7 @@ class Base_Dataset(Dataset):
         pass
 
     def init(self, dl_config, converter, step):
-        self.data_path = os.path.join(dl_config.data_directory, step, dl_config.filename)
+        self.data_path = os.path.join(os_path(dl_config.data_directory), step, dl_config.filename)
         logging.info(f"Init File: {self.data_path}")
         self.y = []
         self.x = []
@@ -40,3 +40,4 @@ class Base_Dataset(Dataset):
                     self.x.append(converter.get_input_tensor(x))
         except Exception as e:
             logging.info(f"Exception: {e}")
+            sys.exit()

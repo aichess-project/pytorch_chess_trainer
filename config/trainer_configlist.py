@@ -4,6 +4,7 @@ import yaml
 from typing import Dict, List
 from itertools import product
 from config.trainer_config import Trainer_Config
+from libs.file_lib import os_path
 
 @dataclass
 class Trainer_Config_List():
@@ -14,6 +15,7 @@ class Trainer_Config_List():
     reduction: List[float]
     criterion: List[float]
     batch_size: List[int]
+    clip_value: List[float]
     device: str
     test_threshold: float
     shuffle: bool
@@ -30,6 +32,7 @@ class Trainer_Config_List():
     cudnn_enabled: bool = False
     
 def save_trainer_config_list_to_yaml(config, file_path):
+    file_path = os_path(file_path)
     # Extract the fields from the data class
     fields_dict = {field.name: getattr(config, field.name) for field in fields(config)}
 
@@ -37,12 +40,16 @@ def save_trainer_config_list_to_yaml(config, file_path):
         yaml.dump(fields_dict, file)
 
 def load_trainer_config_list_from_yaml(file_path):
+    file_path = os_path(file_path)
     with open(file_path, 'r') as file:
         config_dict = yaml.safe_load(file)
 
     return Trainer_Config_List(**config_dict)
 
-def config_iterator(trainer_config_list):
+def get_len_all_combinations(trainer_config_list):
+    return len(list(get_all_combinations(trainer_config_list)))
+
+def get_all_combinations(trainer_config_list):
     list_values = [
         trainer_config_list.learning_rate,
         trainer_config_list.weight_decay,
@@ -51,7 +58,11 @@ def config_iterator(trainer_config_list):
         trainer_config_list.reduction,
         trainer_config_list.criterion,
         trainer_config_list.batch_size,
+        trainer_config_list.clip_value,
     ]
+    return product(*list_values)
+
+def config_iterator(trainer_config_list):
     trainer_config = Trainer_Config(
         cudnn_enabled = trainer_config_list.cudnn_enabled,
         device = trainer_config_list.device,
@@ -67,12 +78,11 @@ def config_iterator(trainer_config_list):
         epochs = 0,
         optimizer = None,
         reduction = None,
-        criterion = None
+        criterion = None,
+        clip_value = 0,
         )
-    
     # Generate all combinations
-    all_combinations = product(*list_values)
-
+    all_combinations = get_all_combinations(trainer_config_list)
     # Iterate through combinations and yield Trainer_Config_List instances
     for combination in all_combinations:
         trainer_config.learning_rate = combination[0]
@@ -82,5 +92,6 @@ def config_iterator(trainer_config_list):
         trainer_config.reduction = combination[4]
         trainer_config.criterion = combination[5]
         trainer_config.batch_size = combination[6]
+        trainer_config.clip_value = combination[7]
         logging.info(f"Config {trainer_config.learning_rate} {trainer_config.weight_decay} {trainer_config.epochs} {trainer_config.optimizer} {trainer_config.reduction} {trainer_config.criterion}")
         yield trainer_config

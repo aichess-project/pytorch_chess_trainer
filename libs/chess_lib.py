@@ -33,7 +33,10 @@ class Chess_Lib:
   def get_square_index(row, column):
      return row * 8 + column
   
-  def extract_krk_positions(fen):
+  def normalize(pos):
+        return pos/63.0
+  
+  def extract_krk_positions(fen, norm = False):
     # Split the FEN string to extract the piece placement part
     parts = fen.split(' ')
     piece_placement = parts[0]
@@ -54,6 +57,9 @@ class Chess_Lib:
                     white_rook_position = Chess_Lib.get_square_index(7 - row, col)
                 col += 1
             else:
-               col += int(char)
-
+                col += int(char)
+    if norm:
+       white_king_position = Chess_Lib.normalize(white_king_position)
+       black_king_position = Chess_Lib.normalize(black_king_position)
+       white_rook_position = Chess_Lib.normalize(white_rook_position)
     return white_king_position, black_king_position, white_rook_position
