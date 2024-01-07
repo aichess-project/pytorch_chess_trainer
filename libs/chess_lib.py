@@ -1,4 +1,5 @@
 import chess
+import torch
 
 class Chess_Lib:
   piece_list = [chess.PAWN, chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN]
@@ -63,3 +64,16 @@ class Chess_Lib:
        black_king_position = Chess_Lib.normalize(black_king_position)
        white_rook_position = Chess_Lib.normalize(white_rook_position)
     return white_king_position, black_king_position, white_rook_position
+  
+  def get_krk_bitmaps(fen):
+    white_king_position, black_king_position, white_rook_position = Chess_Lib.extract_krk_positions(fen, norm = False)
+    wk_bitmap = torch.zeros(64, dtype = torch.bool)
+    wk_bitmap[white_king_position] = 1
+    wr_bitmap = torch.zeros(64, dtype = torch.bool)
+    wr_bitmap[white_rook_position] = 1
+    bk_bitmap = torch.zeros(64, dtype = torch.bool)
+    bk_bitmap[black_king_position] = 1
+    turn = Chess_Lib.extract_turn_from_fen(fen)
+    turn_bitmap = torch.zeros(2, dtype = torch.bool)
+    turn_bitmap[turn] = 1
+    return torch.cat([wk_bitmap.unsqueeze(0), wr_bitmap.unsqueeze(0), bk_bitmap.unsqueeze(0), turn_bitmap.unsqueeze(0)], dim=0)

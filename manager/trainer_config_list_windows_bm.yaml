@@ -31,7 +31,7 @@ training_steps:
   - train
   - valid
   - test
-conv_config: config\conv_config.yaml
+conv_config: config\conv_config_bm.yaml
 dl_config: config\dl_config_win.yaml
-net_config: config\net_config_win.yaml
+net_config: config\net_config_win_bm.yaml
 score_data: ./config/score.yaml

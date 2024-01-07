@@ -1,0 +1,11 @@
+lib: chess_net_gpt
+class_name: ChessNetGPT
+device: cuda
+expected_hash: 0
+net: No Net
+net_file: null
+nodes:
+  NUM_FEATURES: 194
+  M: 194
+  N: -1
+  K: 64
