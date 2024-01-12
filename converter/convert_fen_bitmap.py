@@ -1,6 +1,5 @@
 from converter.convert_fen_halfkp import Convert_FEN_HalfKP2Simple
 from libs.chess_lib import Chess_Lib
-import torch
 
 class Convert_FEN_Bitmap(Convert_FEN_HalfKP2Simple):
     

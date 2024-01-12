@@ -5,7 +5,7 @@ expected_hash: 0
 net: No Net
 net_file: null
 nodes:
-  NUM_FEATURES: 194
-  M: 194
+  NUM_FEATURES: 193
+  M: 193
   N: -1
   K: 64

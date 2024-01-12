@@ -7,7 +7,7 @@ from config.dl_config import get_dl, load_dl_config_from_yaml
 from config.score import load_score_from_yaml, save_score_to_yaml
 from config.conv_config import get_converter, load_conv_config_from_yaml
 from trainer.trainer import Chess_Trainer
-import logging, sys
+import logging, sys, argparse
 from tqdm import tqdm
 
 
@@ -54,14 +54,15 @@ def main(config_file = "trainer_config_list.yaml"):
     save_score_to_yaml(score, trainer_config_list.score_data)
 
 if __name__ == "__main__":
-    setup_logging()
-    # Check if at least one argument is provided
-    if len(sys.argv) < 2:
-        print("Usage: python3 manager.py <config_file>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description='Script with configurable log level and a configuration file')
+    parser.add_argument('config_file', help='Path to the configuration file')
+    parser.add_argument('--loglevel', choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+                        default='INFO', help='Set the logging level (default: INFO)')
+    args = parser.parse_args()
+    setup_logging(args.loglevel)
 
     # Access the parameter passed
-    config_file = sys.argv[1]
+    config_file = args.config_file
     logging.info(f"Start Training {config_file}")
     main(config_file)
     logging.info("End Training")
