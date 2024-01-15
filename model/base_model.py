@@ -1,5 +1,7 @@
+import torch
 import torch.nn as nn
-
+import os
+import logging
 
 class BaseModel(nn.Module):
 
@@ -16,7 +18,7 @@ class BaseModel(nn.Module):
         raise Exception("Not implemented")
     
     def get_name(self):
-        raise Exception("Not implemented")
+        return 'model'
     
     def get_hash_value(self):
         raise Exception("Not implemented")
@@ -24,9 +26,17 @@ class BaseModel(nn.Module):
     def forward(self, x_tensor):
         raise Exception("Not implemented")
     
-    def load(self, filename):
-        raise Exception("Not implemented")
+    def save_model(self, filepath=None):
+        if filepath is None:
+            filepath = self.get_name() + '.pth'
+        # Save the state dictionary to a file
+        torch.save(self.state_dict(), filepath)
+        logging.info(f'Model saved to {filepath}')
 
-    def save(self, filename):
-        raise Exception("Not implemented")
+    def load_model(self, filepath=None):
+        if filepath is None:
+            filepath = self.get_name() + '.pth'
+        # Load the state dictionary from a file
+        self.load_state_dict(torch.load(filepath))
+        logging.info(f'Model loaded from {filepath}')
 

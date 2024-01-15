@@ -1,0 +1,5 @@
+data_directory:  C:\Users\littl\Documents\GIT\AI\krk_data\data
+filename: KRk_new.csv
+delimiter: ','
+lib: base_loader
+class_name: Base_Dataset

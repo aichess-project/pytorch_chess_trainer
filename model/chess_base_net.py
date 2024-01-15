@@ -32,7 +32,7 @@ class ChessBaseNet(BaseModel):
       return eval.floor()
     
     def get_name(self):
-        return "Chess-Basenet Version 0.1"
+        return "Chess-Basenet_Version_0.1"
     
     def get_hash_value(self):
         # Serialize the model's state_dict into a string
@@ -46,9 +46,3 @@ class ChessBaseNet(BaseModel):
     def forward(self, x):
         raise Exception("Not implemented")
     
-    def load(self, filename):
-        load_net_config_from_yaml(filename)
-
-    def save(self, filename):
-        save_net_config_to_yaml(filename)
-

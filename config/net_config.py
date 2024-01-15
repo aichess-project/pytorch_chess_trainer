@@ -33,6 +33,13 @@ def load_net_config_from_yaml(file_path):
 
 def get_net(net_config):
     logging.info(net_config)
-    converter_lib = "model." + net_config.lib
-    converter_class = net_config.class_name
-    return get_class(converter_lib, converter_class, BaseModel)
+    net_lib = "model." + net_config.lib
+    net_class = net_config.class_name
+    return get_class(net_lib, net_class, BaseModel)
+
+def create_net(net_config_file):
+    net_config = load_net_config_from_yaml(net_config_file)
+    logging.info(f"Net Config: {net_config}")
+    net_class = get_net(net_config)
+    net_class.init_net(net_config)
+    return net_class

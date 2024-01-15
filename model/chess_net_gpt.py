@@ -24,7 +24,7 @@ class ChessNetGPT(ChessBaseNet):
                 init.xavier_uniform_(layer.weight)
 
     def get_name(self):
-        return "Chess-Net ChatGPT Version 0.1"
+        return "Chess-Net_ChatGPT_Version_0.1"
     
     def forward(self, x):
         x = F.relu(self.ft(x))

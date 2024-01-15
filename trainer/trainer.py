@@ -6,6 +6,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from libs.loss_adjustment import adjust_loss
+from tqdm import tqdm
 
 class Chess_Trainer():
 
@@ -74,24 +75,24 @@ class Chess_Trainer():
     #
     # Load (best)Net File
     #
-    for epoch in range(num_epochs):
-        score.next_run += 1
-        running_loss = self.run_machine(step = "train")
-        nr_items = int(len(self.data_loaders["train"]))
-        avg = round(running_loss/(nr_items),2)
-        self.log_results(score.next_run, "train", epoch, running_loss, nr_items)
-        if score.best_score > avg and avg > 0.0:
-          score.best_score = avg
-          score.best_run = score.next_run
-          logging.info(f"New best Score: {score.best_score} {score.best_run}")
-          #
-          # Save Net
-          #
-        with torch.no_grad():
-          running_loss = self.run_machine(step = "valid")
-          nr_items = int(len(self.data_loaders["valid"]))
-          self.log_results(score.next_run, "valid", epoch, running_loss, nr_items)
-          running_loss = self.run_machine(step = "test")
-          nr_items = int(len(self.data_loaders["test"]))
-          self.log_results(score.next_run, "test", epoch, running_loss, nr_items)
+    with tqdm(total=num_epochs, desc='Training', unit=' epochs') as t:
+      for epoch in range(num_epochs):
+          score.next_run += 1
+          running_loss = self.run_machine(step = "train")
+          nr_items = int(len(self.data_loaders["train"]))
+          avg = round(running_loss/(nr_items),2)
+          self.log_results(score.next_run, "train", epoch, running_loss, nr_items)
+          if score.best_score > avg and avg > 0.0:
+            score.best_score = avg
+            score.best_run = score.next_run
+            logging.info(f"New best Score: {score.best_score} {score.best_run}")
+            self.machine.save_model()
+          with torch.no_grad():
+            running_loss = self.run_machine(step = "valid")
+            nr_items = int(len(self.data_loaders["valid"]))
+            self.log_results(score.next_run, "valid", epoch, running_loss, nr_items)
+            running_loss = self.run_machine(step = "test")
+            nr_items = int(len(self.data_loaders["test"]))
+            self.log_results(score.next_run, "test", epoch, running_loss, nr_items)
+            t.update(1)
     return score

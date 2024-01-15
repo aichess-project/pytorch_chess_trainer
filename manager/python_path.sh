@@ -1,1 +1,0 @@
-conda env config vars set PYTHONPATH=C:\Users\littl\Documents\GIT\AI\pytorch_chess_trainer

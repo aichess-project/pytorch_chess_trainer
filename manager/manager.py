@@ -2,21 +2,13 @@ from libs.log_lib import setup_logging
 from trainer.trainer import Chess_Trainer
 from data_loader.base_loader import Base_Dataset
 from config.trainer_configlist import load_trainer_config_list_from_yaml, config_iterator, get_len_all_combinations
-from config.net_config import get_net, load_net_config_from_yaml
+from config.net_config import create_net
 from config.dl_config import get_dl, load_dl_config_from_yaml
 from config.score import load_score_from_yaml, save_score_to_yaml
 from config.conv_config import get_converter, load_conv_config_from_yaml
 from trainer.trainer import Chess_Trainer
 import logging, sys, argparse
 from tqdm import tqdm
-
-
-def create_net(net_config_file):
-    net_config = load_net_config_from_yaml(net_config_file)
-    logging.info(f"Net Config: {net_config}")
-    net_class = get_net(net_config)
-    net_class.init_net(net_config)
-    return net_class
 
 def create_converter(conv_config_file):
     conv_config = load_conv_config_from_yaml(conv_config_file)
